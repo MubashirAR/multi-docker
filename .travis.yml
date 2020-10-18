@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t mubashirar/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run mubashirar/react-test npm test CI=true -- --coverage
+
+after_success:
+  - docker build -t mubashirar/multi-client ./client
+  - docker build -t mubashirar/multi-nginx ./nginx
+  - docker build -t mubashirar/multi-server ./server
+  - docker build -t mubashirar/multi-worker ./worker
+  # Login to the docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to dockerhub
+  - docker push mubashirar/multi-client
+  - docker push mubashirar/multi-nginx
+  - docker push mubashirar/multi-server
+  - docker push mubashirar/multi-worker
