@@ -3,6 +3,8 @@ services:
   - docker
 
 before_install:
+  - pwd
+  - ls
   - ls ./client
   - docker build -t mubashirar/react-test -f ./client/Dockerfile.dev ./client
 
