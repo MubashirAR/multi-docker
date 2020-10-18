@@ -3,10 +3,11 @@ services:
   - docker
 
 before_install:
+  - ls ./client
   - docker build -t mubashirar/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run mubashirar/react-test npm test CI=true -- --coverage
+  - docker run -e CI=true mubashirar/react-test npm test -- --coverage
 
 after_success:
   - docker build -t mubashirar/multi-client ./client
