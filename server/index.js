@@ -24,7 +24,7 @@ pgClient.on('error', () => console.log('Lost PG connection!'));
 
 pgClient.on('connect', () => {
   console.log('Postgres connected!')
-  pgClient.query('CREATE TABLE IF NOT EXISTS values (number INT)').catch((e) => console.log(e));
+  pgClient.query('CREATE TABLE IF NOT EXISTS fibvalues (number INT)').catch((e) => console.log(e));
 });
 
 // Redis client setup
